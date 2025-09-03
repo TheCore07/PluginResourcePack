@@ -3,7 +3,10 @@ name: Auto Build & Release Resourcepack
 on:
   push:
     branches:
-      - master   # läuft bei jedem Push auf main
+      - master
+
+permissions:
+  contents: write   # <-- wichtig! erlaubt Release-Erstellung
 
 jobs:
   build:
@@ -15,7 +18,7 @@ jobs:
 
       - name: Pack resourcepack into zip
         run: |
-          zip -r PluginResourcePack.zip assets pack.mcmeta
+          zip -r ArmoredElytra.zip assets pack.mcmeta
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
@@ -23,6 +26,6 @@ jobs:
           tag_name: "auto-${{ github.run_number }}"
           name: "Auto Release ${{ github.run_number }}"
           body: "Automatisch generiertes Resourcepack Release."
-          files: PluginResourcePack.zip
+          files: ArmoredElytra.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
