@@ -3,7 +3,7 @@ name: Auto Build & Release Resourcepack
 on:
   push:
     branches:
-      - main   # läuft bei jedem Push auf main
+      - master   # läuft bei jedem Push auf main
 
 jobs:
   build:
