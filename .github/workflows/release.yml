@@ -1,11 +1,9 @@
-name: Build Resourcepack
+name: Auto Build & Release Resourcepack
 
 on:
   push:
     branches:
-      - master   # oder master, je nach Branch
-    tags:
-      - 'v*'   # erstellt ein Release bei Tags wie v1.0, v1.1 etc.
+      - main   # läuft bei jedem Push auf main
 
 jobs:
   build:
@@ -19,9 +17,12 @@ jobs:
         run: |
           zip -r PluginResourcePack.zip assets pack.mcmeta
 
-      - name: Create Release
+      - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
+          tag_name: "auto-${{ github.run_number }}"
+          name: "Auto Release ${{ github.run_number }}"
+          body: "Automatisch generiertes Resourcepack Release."
           files: PluginResourcePack.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
