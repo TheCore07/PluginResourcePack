@@ -20,12 +20,18 @@ jobs:
         run: |
           zip -r ArmoredElytra.zip assets pack.mcmeta
 
+      - name: Generate SHA1 hash
+        run: |
+          sha1sum ArmoredElytra.zip | awk '{ print $1 }' > SHA1.txt
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: "auto-${{ github.run_number }}"
           name: "Auto Release ${{ github.run_number }}"
           body: "Automatisch generiertes Resourcepack Release."
-          files: ArmoredElytra.zip
+          files: |
+            ArmoredElytra.zip
+            SHA1.txt
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
